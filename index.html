@@ -3,18 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="reset.css">
+  <!-- Link to bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- Link to my css -->
   <link rel="stylesheet" type="text/css" href="style.css">
   <title>Javascript Quiz</title>
 </head>
 <body>
 
-  <h1>this is an h1</h1>
+  <!-- Places the High Score and Timer at the top of the page -->
+  <div class="row mx-auto">
+  <a href="" class="col-sm-6 text-left" id="high-scores">View High Scores</a>  
+  <p class="col-sm-6 text-right">Time Left: <span id="timer"></span></p>
+  </div>
+  
+  <!-- Places the card that will be present when page loads -->
+  <div class="container">
+    <div class="card w-50 mx-auto" id="startScreen">
+      <div class="card-body text-center">
+        <h3 class="card-title">Coding Quiz</h3>
+        <p class="card-text">Try to answer the following coding questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by five seconds.</p>
+        <a href="#" class="btn btn-primary" id="startButton">Start Quiz</a>
+      </div>
+    </div>
 
+  <!-- This is the question card -->
+    <div class="card w-50 mx-auto" id="questionScreen"></div>
 
+  <!-- This is the card to show user if their choice was correct or incorrect -->
+    <div class="card w-50 mx-auto" id="resultBox"></div>
 
+  <!-- This is the card that will contain an input for the user's initials at the end of the game -->
+    <div class="card w-50 mx-auto" id="enterInitials" style="display: none">
+        <div class="card-body text-center">
+          <h3 class="card-title">All Done</h3>
+          <p class="card-text">Your final score is: <span id="finalScore"></span></p>
+          <div class="input-group mb-3">
+            <label for="input">Enter initials: </label>
+            <input type="text" class="form-control" id="input" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" id="initialButton">Submit</button>
+            </div>
+          </div>
+        </div>
 
+    </div>
+
+  <!-- This card appears to display the high score -->
+    <div class="card w-50 mx-auto" id="highScoreScreen" style="display: none">
+      <div class="card-body text-center">
+        <h3 class="card-title">High Scores</h3>
+        <p class="card-text"><span id="score"></span></p>
+          <button type="button" class="btn btn-primary btn-sm" id="startOver">Start Over</button>
+          <button type="button" class="btn btn-primary btn-sm" id="clearScores">Clear High Scores</button>
+        </div>
+      </div>
+    </div>
+  
+
+  <!-- Link to Javascript -->
   <script src="script.js"></script>
   
 </body>
