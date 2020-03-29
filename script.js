@@ -9,7 +9,8 @@ var highScoreHeader = document.getElementById("high-scores");
 // Other useful variables
 var scoreTime = 75;
 var currentQuestion = 0;
-var gameScore = 0;
+var finalScore = 0;
+var highScore = 0;
 
 // Array of questions (objects)
 var questions = [
@@ -47,21 +48,17 @@ var questions = [
       scoreTime--;
       timerEl.textContent = scoreTime;
       if (scoreTime === 0 || currentQuestion === questions.length) {
-        if (scoreTime !== null) {
-           gameScore = scoreTime; 
-        }
         timerEl.textContent = "";
         clearInterval(countDownTimer);
         }
     }, 1000);
   }
-
-  
-       
+      
+  // Presents user with first question
     function displayQuestion(question) {
       
       var questionEl = document.createElement("h5");
-      questionEl.textContent = questions.question;
+      questionEl.textContent = question.question;
       questionScreen.appendChild(questionEl);
       for (var i=0; i < 4; i++) {
         var choiceButtonEl = document.createElement("button"); 
@@ -71,14 +68,14 @@ var questions = [
       }
     }
 
-  // Events listener that handles the "Start Quiz" button click. Makes the start screen disappear and starts the timer.
+  // Event listener that handles the "Start Quiz" button click. Makes the start screen disappear and starts the timer.
   document.getElementById("startButton").addEventListener("click", function() {
     document.getElementById("startScreen").setAttribute("style", "display: none");
     goGamego();
     displayQuestion(questions[currentQuestion]);
   })
 
-  // Presents the user with the question and handles their clicked answer
+  // Handles user's clicked answer
   document.querySelector("#questionScreen").addEventListener("click", function(event) {
     if (event.target.tagName === "BUTTON") {
       var selectedAnswer = event.target.textContent;
@@ -87,7 +84,7 @@ var questions = [
           resultBox = document.createElement("p");
           resultBox.textContent = "Correct";
           resultBox.classList.add("resultStyle");
-          questionScreen.appendChild(resultBox); 
+          questionScreen.appendChild(resultBox);
         }
         else {
           resultBox = document.createElement("p");
@@ -96,41 +93,54 @@ var questions = [
           questionScreen.appendChild(resultBox);
           scoreTime = scoreTime -5;
         }
-        currentQuestion++;
         questionScreen.innerHTML = "";
-        displayQuestion(questions[currentQuestion]);
+        currentQuestion++;
+         if (currentQuestion === questions.length) {
+          endQuiz();
+       } else {
+          displayQuestion(questions[currentQuestion]);
+       }
       }
    })
-   
-   if (currentQuestion === questions.length) {
-      endQuiz();
-   }
-   
+  
+  //Ends the question portion of the quiz and moves on to score screens
    function endQuiz() {
      questionScreen.innerHTML = "";
-     enterInitials.classList.setAttribute("style", "display: block");
+     enterInitials.setAttribute("style", "display: block");
+     finalScore = document.getElementById("finalScore");
+     if (scoreTime !== null) {
+     finalScore.textContent = scoreTime; 
    }
-
-  // Local storage for high scores
-  function init() {
-    var storedScore = localStorage.getItem("highScore");
-    if (storedScore !==null) {
-      highScore = storedScore;
+   
+  //When the user clicks "Submit" after adding their initials, the initials and score are stored and the current high score is displayed.
+  document.getElementById("initialButton").addEventListener("click", function(event) {
+  if (event.target.tagName === "BUTTON") {
+    storeScore();
+    enterInitials.innerHTML = "";
+    highScoreScreen.setAttribute("style", "display: block");    
     }
-  }
-  function storeScore() {
-    localStorage.setItem("highScore");
-  }
+  });
 
-  highScoreHeader.addEventListener("click", function(event) {
-    init();
-  })
+  score.textContent = highScore;
 
   //When user clicks "Start Over", the questions and timer start again.
-   startOver.addEventListener("click", function(event) {
-    document.getElementById("startScreen").setAttribute("style", "display: none");
-     goGamego();
-     displayQuestion();
-   })
-   
+  document.getElementById("startOverBtn").addEventListener("click", function() {
+    goGamego();
+    displayQuestion(question);
+  });
+}
+  // Local storage for high scores
   
+  function storeScore() {
+  if (highScore !== null) {
+        localStorage.setItem("highScore", finalScore); 
+    }
+    else if (finalScore > highScore) {
+        localStorage.setItam("highScore", finalScore);
+    }
+    else{
+    localStorage.setItem("highScore", highScore);
+    }
+  }
+  
+
